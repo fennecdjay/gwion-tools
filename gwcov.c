@@ -73,7 +73,8 @@ static void run(Cov *cov, void(*func)(Cov*, Data*)) {
   if(!(f = fopen(filename, "r")))
     err(cov->base, filename);
   while (1) {
-    int ret = fscanf(f, "%u %s", &d.i, (char*)&d.c);
+    int ret = fscanf(f, "%u %8s", &d.i, 
+(char*)&d.c);
     if(ret == 2)
       func(cov, &d);
     else if(errno != 0) {
@@ -103,14 +104,14 @@ static void detab(char* in, char* out, size_t max_len, uint* has_comment) {
     if(*in == '\t') {
       for(int j = 0; j < TABLEN; j++)
         out[i++] = ' ';
-    } else if(!*has_comment && *in == '/' && *(in + 1) && *(in + 1) == '/') {
+    } else if(!*has_comment && (*in) == '/' && *(in + 1) && *(in + 1) == '/') {
       *has_comment = 1;
       colorize(out, &i, "0");
       colorize(out, &i, "2");
       out[i++] = *in;
     } else
       out[i++] = *in;
-    (void)*in++;
+      (*in)++;
   }
   out[i] = 0;
 }
