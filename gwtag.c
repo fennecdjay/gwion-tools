@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include "defs.h"
+#include "map.h"
 #include "absyn.h"
 #include "hash.h"
 #include "scanner.h"
