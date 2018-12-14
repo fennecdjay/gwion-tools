@@ -119,9 +119,9 @@ ANN static void lint_type_list(Linter* linter, Type_List list) {
 }
 
 ANN static void lint_type_decl(Linter* linter, Type_Decl* type) {
-  if(GET_FLAG(type, ae_flag_private))
+  if(GET_FLAG(type, private))
     lint_print(linter, "private ");
-  if(GET_FLAG(type, ae_flag_static))
+  if(GET_FLAG(type, static))
     lint_print(linter, "static ");
   if(type->xid->ref) {
     lint_print(linter, "typeof ");
@@ -131,7 +131,7 @@ ANN static void lint_type_decl(Linter* linter, Type_Decl* type) {
     lint_type_list(linter, type->types);
     lint_id_list(linter, type->xid);
   }
-  if(GET_FLAG(type, ae_flag_ref))
+  if(GET_FLAG(type, ref))
     lint_print(linter, "@");
   if(type->array)
     lint_array(linter, type->array);
@@ -473,10 +473,10 @@ ANN void lint_stmt_fptr(Linter* linter, Stmt_Fptr ptr) {
     lint_type_decl(linter, list->td);
     lint_print(linter, " %s", s_name(list->var_decl->xid));
     list = list->next;
-    if(list || GET_FLAG(ptr->td, ae_flag_variadic))
+    if(list || GET_FLAG(ptr->td, variadic))
       lint_print(linter, ", ");
   }
-  if(GET_FLAG(ptr->td, ae_flag_variadic))
+  if(GET_FLAG(ptr->td, variadic))
     lint_print(linter, "...");
   lint_print(linter, ")");
   lint_nl(linter);
@@ -493,9 +493,9 @@ ANN void lint_stmt_type(Linter* linter, Stmt_Type ptr) {
 
 ANN void lint_stmt_union(Linter* linter, Stmt_Union stmt) {
   Decl_List l = stmt->l;
-  if(GET_FLAG(stmt, ae_flag_private))
+  if(GET_FLAG(stmt, private))
     lint_print(linter, "private ");
-  if(GET_FLAG(stmt, ae_flag_static))
+  if(GET_FLAG(stmt, static))
     lint_print(linter, "static ");
   lint_print(linter, "union ");
   if(stmt->type_xid)
@@ -633,9 +633,9 @@ ANN static void lint_stmt_list(Linter* linter, Stmt_List list) {
 ANN static void lint_func_def(Linter* linter, Func_Def f) {
   Arg_List list = f->arg_list;
   lint_indent(linter);
-  lint_print(linter, "%s", GET_FLAG(f, ae_flag_variadic) ?
+  lint_print(linter, "%s", GET_FLAG(f, variadic) ?
       "variadic " : "function ");
-  if(GET_FLAG(f, ae_flag_static))
+  if(GET_FLAG(f, static))
     lint_print(linter, "static ");
   lint_type_decl(linter, f->td);
   lint_print(linter, " ");

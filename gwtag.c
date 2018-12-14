@@ -86,7 +86,7 @@ static void tag_type_decl(Tagger* tagger, Type_Decl* type) {
       tag_type_list(tagger, type->types);
     tag_id_list(tagger, type->xid);
   }
-  if(GET_FLAG(type, ae_flag_ref))
+  if(GET_FLAG(type, ref))
     tag_print(tagger, "@");
   if(type->array)
     tag_array(tagger, type->array);
@@ -267,7 +267,7 @@ void tag_stmt_fptr(Tagger* tagger, Stmt_Fptr ptr) {
     list = list->next;
     if(list)
       tag_print(tagger, ", ");
-    else if(GET_FLAG(ptr->td, ae_flag_variadic))
+    else if(GET_FLAG(ptr->td, variadic))
       tag_print(tagger, ", ...");
   }
 
@@ -396,7 +396,7 @@ static void tag_func_def(Tagger* tagger, Func_Def f) {
     if(list)
       tag_print(tagger, ", ");
   }
-  if(GET_FLAG(f, ae_flag_variadic))
+  if(GET_FLAG(f, variadic))
     tag_print(tagger, ", ...");
   tag_print(tagger, ") {$/;\tf\n");
   f->flag &= ~ae_flag_template;
